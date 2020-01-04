@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>All the book list</title>
+</head>
+<body>
+    <div class="container">
+        <h2 class="pb-2 mt-4 mb-2 border-bottom">My Book List</h2>
+        <div class="alert alert-success alert-dismissible" th:unless="${message==null}">
+            <strong>Congratulations!</strong>
+            <span th:text="${'Operation of '+message+' Successful!'}">Successful!</span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <p class="text-right"><a href="./newBook.html" th:href="@{books/input}" class="btn btn-primary">Put new record</a></p>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Author</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Operations</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book, iterStat:${page.content}">
+                <td th:text="${iterStat.count}">1</td>
+                <td th:text="${book.author}">Author</td>
+                <td><a th:text="${book.name}" th:href="@{'books/'+${book.id}}">Name</a></td>
+                <td th:text="${book.description}">Description</td>
+                <td th:switch="${book.status}">
+                    <span th:case="0">Have not read yet</span>
+                    <span th:case="1">Reading now</span>
+                    <span th:case="2">Done</span>
+                    <span th:case="*">No value</span>
+                </td>
+                <td>
+                    <a th:text="update" th:href="@{'books/input/'+${book.id}}">Update</a>
+                    <a th:text="delete" th:href="@{'books/delete/'+${book.id}}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+        <nav>
+            <ul class="pagination text-center">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{'books?pageNum='+${page.number-1}}" href="#" th:unless="${page.first}">Prev</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" th:href="@{'books?pageNum='+${page.number+1}}" th:unless="${page.last}">Next</a>
+                </li>
+            </ul>
+        </nav>
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script th:src="@{/js/bootstrap.min.js}" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
